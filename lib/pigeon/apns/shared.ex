@@ -18,7 +18,7 @@ defmodule Pigeon.APNS.Shared do
   @apns_collapse_id "apns-collapse-id"
 
   @spec push_headers(config, Notification.t(), opts) :: headers()
-  def push_headers(_config, notification, _opts) do
+  def push_headers(config, notification, _opts) do
     json = Pigeon.json_library().encode!(notification.payload)
 
     [
@@ -27,7 +27,7 @@ defmodule Pigeon.APNS.Shared do
       {"content-length", "#{byte_size(json)}"}
     ]
     |> put_header(@apns_id, notification.id)
-    |> put_header(@apns_topic, notification.topic)
+    |> put_header(@apns_topic, notification.topic || config.bundle_id)
     |> put_header(@apns_priority, notification.priority)
     |> put_header(@apns_push_type, notification.push_type)
     |> put_header(@apns_expiration, notification.expiration)

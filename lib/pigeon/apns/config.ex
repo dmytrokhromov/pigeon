@@ -5,6 +5,7 @@ defmodule Pigeon.APNS.Config do
             key: nil,
             port: 443,
             ping_period: 600_000,
+            bundle_id: nil,
             uri: nil
 
   @typedoc ~S"""
@@ -27,6 +28,7 @@ defmodule Pigeon.APNS.Config do
           cert: binary | nil,
           key: binary | nil,
           uri: binary | nil,
+          bundle_id: binary | nil,
           port: pos_integer,
           ping_period: pos_integer
         }
@@ -52,6 +54,7 @@ defmodule Pigeon.APNS.Config do
           ping_period: pos_integer,
           port: pos_integer,
           uri: binary,
+          bundle_id: binary | nil,
           jwt_key: binary | {atom, binary},
           jwt_key_identifier: binary | nil,
           jwt_team_id: binary | nil
@@ -71,12 +74,14 @@ defmodule Pigeon.APNS.Config do
       ...>   mode: :prod,
       ...>   cert: File.read!("test/support/FakeAPNSCert.pem"),
       ...>   key: File.read!("test/support/FakeAPNSKey.pem"),
+      ...>   bundle_id: "com.example.YourApp",
       ...>   port: 2197,
       ...>   ping_period: 300_000
       ...> )
       %Pigeon.APNS.Config{
         cert: "test/support/FakeAPNSCert.pem" |> File.read!() |> Pigeon.APNS.Config.decode_pem(),
         key: "test/support/FakeAPNSKey.pem" |> File.read!() |> Pigeon.APNS.Config.decode_pem(),
+        bundle_id: "com.example.YourApp",
         ping_period: 300000, 
         port: 2197,
         uri: "api.push.apple.com"
@@ -87,6 +92,7 @@ defmodule Pigeon.APNS.Config do
       cert: opts |> Keyword.get(:cert) |> decode_pem(),
       key: opts |> Keyword.get(:key) |> decode_pem(),
       ping_period: Keyword.get(opts, :ping_period, 600_000),
+      bundle_id: Keyword.get(opts, :bundle_id),
       port: Keyword.get(opts, :port, 443),
       uri: Keyword.get(opts, :uri, ConfigParser.uri_for_mode(opts[:mode]))
     }

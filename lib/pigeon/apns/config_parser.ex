@@ -13,7 +13,8 @@ defmodule Pigeon.APNS.ConfigParser do
           port: pos_integer,
           uri: binary,
           key_identifier: binary | nil,
-          team_id: binary | nil
+          team_id: binary | nil,
+          bundle_id: binary | nil
         ]
 
   @type config :: Config.t() | JWTConfig.t()

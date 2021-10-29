@@ -6,6 +6,7 @@ defmodule Pigeon.APNS.JWTConfig do
             ping_period: 600_000,
             port: 443,
             team_id: nil,
+            bundle_id: nil,
             uri: nil
 
   alias Pigeon.APNS.ConfigParser
@@ -26,7 +27,8 @@ defmodule Pigeon.APNS.JWTConfig do
         ping_period: 600_000,
         key: nil,
         key_identifier: "ABC1234567",
-        team_id: "DEF1234567"
+        team_id: "DEF1234567",
+        bundle_id: "com.example.YourApp"
       }
   """
   @type t :: %__MODULE__{
@@ -35,7 +37,8 @@ defmodule Pigeon.APNS.JWTConfig do
           ping_period: pos_integer,
           key: binary | nil | {:error, term},
           key_identifier: binary | nil,
-          team_id: binary | nil
+          team_id: binary | nil,
+          bundle_id: binary | nil
         }
 
   @typedoc ~S"""
@@ -59,6 +62,7 @@ defmodule Pigeon.APNS.JWTConfig do
           key: binary | {atom, binary},
           key_identifier: binary | nil,
           team_id: binary | nil,
+          bundle_id: binary | nil,
           ping_period: pos_integer,
           port: pos_integer,
           uri: binary
@@ -74,12 +78,14 @@ defmodule Pigeon.APNS.JWTConfig do
       ...>   key: File.read!("test/support/FakeAPNSAuthKey.p8"),
       ...>   key_identifier: "ABC1234567",
       ...>   team_id: "DEF1234567",
+      ...>   bundle_id: "com.example.YourApp",
       ...>   port: 2197,
       ...>   ping_period: 300_000
       ...> )
       %Pigeon.APNS.JWTConfig{
         uri: "api.push.apple.com", 
         team_id: "DEF1234567", 
+        bundle_id: "com.example.YourApp",
         key_identifier: "ABC1234567", 
         key: File.read!("test/support/FakeAPNSAuthKey.p8"),
         ping_period: 300000, 
@@ -93,7 +99,8 @@ defmodule Pigeon.APNS.JWTConfig do
       ping_period: Keyword.get(opts, :ping_period, 600_000),
       key: decode_key(opts[:key]),
       key_identifier: Keyword.get(opts, :key_identifier),
-      team_id: Keyword.get(opts, :team_id)
+      team_id: Keyword.get(opts, :team_id),
+      bundle_id: Keyword.get(opts, :bundle_id)
     }
   end
 
