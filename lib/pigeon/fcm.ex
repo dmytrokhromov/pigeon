@@ -158,7 +158,7 @@ defmodule Pigeon.FCM do
     case connect_socket(config) do
       {:ok, socket} ->
         Configurable.schedule_ping(config)
-        {:noreply, %{state | socket: socket}}
+        {:noreply, %{state | socket: socket, stream_id: 1}}
 
       {:error, reason} ->
         {:stop, reason}
