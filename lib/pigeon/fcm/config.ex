@@ -30,15 +30,12 @@ defmodule Pigeon.FCM.Config do
       }
   """
   def new(opts) when is_list(opts) do
-    project_id =
-      opts
-      |> Keyword.get(:project_id)
-      |> decode_bin()
-
     service_account_json =
       opts
       |> Keyword.get(:service_account_json)
       |> decode_json()
+
+    project_id = extract_project_id(service_account_json)
 
     %__MODULE__{
       port: Keyword.get(opts, :port, 443),
@@ -46,6 +43,14 @@ defmodule Pigeon.FCM.Config do
       service_account_json: service_account_json,
       uri: Keyword.get(opts, :uri, 'fcm.googleapis.com')
     }
+  end
+
+  def extract_project_id(%{"project_id" => project_id}) when is_binary(project_id) do
+    project_id
+  end
+
+  def extract_project_id(_) do
+    {:error, {:invalid, :missing_project_id}}
   end
 
   def decode_bin(bin) when is_binary(bin) do
