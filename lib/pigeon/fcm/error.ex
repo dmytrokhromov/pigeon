@@ -5,6 +5,15 @@ defmodule Pigeon.FCM.Error do
 
   @doc false
   @spec parse(map) :: Notification.error_response()
+  def parse(%{"status" => "NOT_FOUND", "details" => details}) when is_list(details) do
+    details
+    |> Enum.reduce(nil, fn
+      %{"@type" => "type.googleapis.com/google.firebase.fcm.v1.FcmError", "errorCode" => code}, _ -> code
+      _, acc -> acc
+    end)
+    |> parse_response()
+  end
+
   def parse(error) do
     error
     |> Map.get("status")
