@@ -2,8 +2,7 @@
 
 > HTTP2-compliant wrapper for sending iOS and Android push notifications.
 
-[![Build Status](https://travis-ci.com/codedge-llc/pigeon.svg?branch=master)](https://travis-ci.com/codedge-llc/pigeon)
-[![Coverage Status](https://coveralls.io/repos/github/codedge-llc/pigeon/badge.svg)](https://coveralls.io/github/codedge-llc/pigeon)
+[![CI](https://github.com/codedge-llc/pigeon/actions/workflows/ci.yml/badge.svg)](https://github.com/codedge-llc/pigeon/actions/workflows/ci.yml)
 [![Hex.pm](http://img.shields.io/hexpm/v/pigeon.svg)](https://hex.pm/packages/pigeon)
 [![Hex.pm](http://img.shields.io/hexpm/dt/pigeon.svg)](https://hex.pm/packages/pigeon)
 
@@ -61,6 +60,6 @@ Git commit subjects use the [Karma style](http://karma-runner.github.io/5.0/dev/
 
 ## License
 
-Copyright (c) 2015-2021 Codedge LLC (https://www.codedge.io/)
+Copyright (c) 2015-2022 Codedge LLC (https://www.codedge.io/)
 
 This library is MIT licensed. See the [LICENSE](https://github.com/codedge-llc/pigeon/blob/master/LICENSE) for details.
