@@ -103,6 +103,8 @@ defmodule Pigeon.FCM do
   alias Pigeon.{Configurable, NotificationQueue}
   alias Pigeon.Http2.{Client, Stream}
 
+  require Logger
+
   @refresh :"$refresh"
   @retry_after 1000
 
@@ -167,6 +169,7 @@ defmodule Pigeon.FCM do
         {:noreply, state}
 
       {:error, reason} ->
+        Logger.info("Closed, reason: #{inspect(reason)}")
         {:stop, reason}
     end
   end
@@ -192,7 +195,9 @@ defmodule Pigeon.FCM do
   def handle_info(msg, state) do
     case Client.default().handle_end_stream(msg, state) do
       {:ok, %Stream{} = stream} -> process_end_stream(stream, state)
-      _else -> {:noreply, state}
+      other ->
+        Logger.info("Msg unknown, other: #{inspect(other)}")
+        {:noreply, state}
     end
   end
 
