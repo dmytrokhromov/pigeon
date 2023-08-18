@@ -16,7 +16,7 @@ Add `:pigeon` and as a `mix.exs` dependency:
 ```elixir
 def deps do
   [
-    {:pigeon, "~> 2.0.0-rc.0"}
+    {:pigeon, "~> 2.0.0-rc.1"}
   ]
 end
 ```
@@ -25,34 +25,37 @@ end
 
 Check the module documentation for your push notification service.
 
-- [Pigeon.ADM](https://hexdocs.pm/pigeon/2.0.0-rc.0/Pigeon.ADM.html) - Amazon Android.
-- [Pigeon.APNS](https://hexdocs.pm/pigeon/2.0.0-rc.0/Pigeon.APNS.html) - Apple iOS.
-- [Pigeon.FCM](https://hexdocs.pm/pigeon/2.0.0-rc.0/Pigeon.FCM.html) - Firebase Cloud Messaging v1 API.
-- [Pigeon.LegacyFCM](https://hexdocs.pm/pigeon/2.0.0-rc.0/Pigeon.LegacyFCM.html) - Firebase Cloud Messaging Legacy API.
+- [Pigeon.ADM](https://hexdocs.pm/pigeon/2.0.0-rc.1/Pigeon.ADM.html) - Amazon Android.
+- [Pigeon.APNS](https://hexdocs.pm/pigeon/2.0.0-rc.1/Pigeon.APNS.html) - Apple iOS.
+- [Pigeon.FCM](https://hexdocs.pm/pigeon/2.0.0-rc.1/Pigeon.FCM.html) - Firebase Cloud Messaging v1 API.
+- [Pigeon.LegacyFCM](https://hexdocs.pm/pigeon/2.0.0-rc.1/Pigeon.LegacyFCM.html) - Firebase Cloud Messaging Legacy API.
 
 ### Creating Dynamic Runtime Dispatchers
 
 Pigeon can spin up dynamic dispatchers for a variety of advanced use-cases, such as
 supporting dozens of dispatcher configurations or custom connection pools.
 
-See [Pigeon.Dispatcher](https://hexdocs.pm/pigeon/2.0.0-rc.0/Pigeon.Dispatcher.html) for instructions.
+See [Pigeon.Dispatcher](https://hexdocs.pm/pigeon/2.0.0-rc.1/Pigeon.Dispatcher.html) for instructions.
 
 ### Writing a Custom Dispatcher Adapter
 
 Want to write a Pigeon adapter for an unsupported push notification service?
 
-See [Pigeon.Adapter](https://hexdocs.pm/pigeon/2.0.0-rc.0/Pigeon.Adapter.html) for instructions.
+See [Pigeon.Adapter](https://hexdocs.pm/pigeon/2.0.0-rc.1/Pigeon.Adapter.html) for instructions.
 
 ## Contributing
 
 ### Testing
 
-Unit tests can be run with `mix test` or `mix coveralls.html`.
+Unit tests can be run with `mix test` or `mix coveralls.html`. Environment variables will need to be set for
+various credentials. See [config/test.exs](https://github.com/codedge-llc/pigeon/blob/master/config/test.exs)
+for the full list.
 
 ### Formatting
 
-This project uses Elixir's `mix format` for formatting. Add a hook in your editor of choice to
-run it after a save. Be sure it respects this project's `.formatter.exs`.
+This project uses Elixir's `mix format` and [Prettier](https://prettier.io) for formatting.
+Add hooks in your editor of choice to run it after a save. Be sure it respects this project's
+`.formatter.exs`.
 
 ### Commits
 
@@ -60,6 +63,6 @@ Git commit subjects use the [Karma style](http://karma-runner.github.io/5.0/dev/
 
 ## License
 
-Copyright (c) 2015-2022 Codedge LLC (https://www.codedge.io/)
+Copyright (c) 2015-2023 Codedge LLC (https://www.codedge.io/)
 
 This library is MIT licensed. See the [LICENSE](https://github.com/codedge-llc/pigeon/blob/master/LICENSE) for details.

@@ -1,6 +1,25 @@
 # Changelog
 
-## v2.0.0 (dev)
+## Unreleased
+
+**Fixed**
+
+- Resolve APNS `:too_many_provider_token_updates` by moving token generation into
+  `APNS.Token` ([#227](https://github.com/codedge-llc/pigeon/pull/227)).
+- Support HTTPoison 2.0. ([#236](https://github.com/codedge-llc/pigeon/pull/236))
+
+## v2.0.0-rc.1
+
+**Fixed**
+
+- Reset stream ID when connection is closed. ([#216](https://github.com/codedge-llc/pigeon/pull/217))
+
+**Changed**
+
+- Bump `goth` dependency to `~> 1.3.0`. ([#224](https://github.com/codedge-llc/pigeon/pull/224))
+- Bump minimum supported Elixir version to `1.7`.
+
+## v2.0.0-rc.0
 
 **Changed**
 
