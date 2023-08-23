@@ -157,6 +157,7 @@ defmodule Pigeon.FCM do
   end
 
   def handle_info({:closed, _}, %{config: config} = state) do
+    Logger.info("connection closed")
     case connect_socket(config) do
       {:ok, socket} ->
         Configurable.schedule_ping(config)
@@ -230,10 +231,12 @@ defmodule Pigeon.FCM do
   @doc false
   def process_end_stream(%Stream{id: stream_id} = stream, state) do
     %{queue: queue, config: config} = state
+    Logger.info("Received end stream")
 
     case NotificationQueue.pop(queue, stream_id) do
       {nil, new_queue} ->
         # Do nothing if no queued item for stream
+        Logger.info("Empty queue")
         {:noreply, %{state | queue: new_queue}}
 
       {notif, new_queue} ->
