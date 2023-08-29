@@ -148,6 +148,10 @@ defimpl Pigeon.Configurable, for: Pigeon.FCM.Config do
     end
   end
 
+  def handle_end_stream(_config, stream, _notif) do
+    Logger.warn("Stream error: #{inspect(stream)}")
+  end
+
   def schedule_ping(_config), do: :ok
 
   def close(_config) do

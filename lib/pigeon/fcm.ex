@@ -156,8 +156,8 @@ defmodule Pigeon.FCM do
     {:noreply, state}
   end
 
-  def handle_info({:closed, _}, %{config: config} = state) do
-    Logger.info("connection closed")
+  def handle_info({:closed, _}, %{config: config, queue: queue} = state) do
+    Logger.info("connection closed, queue: #{inspect(Map.keys(queue))}")
     case connect_socket(config) do
       {:ok, socket} ->
         Configurable.schedule_ping(config)
@@ -170,7 +170,7 @@ defmodule Pigeon.FCM do
         {:noreply, state}
 
       {:error, reason} ->
-        Logger.info("Closed, reason: #{inspect(reason)}")
+        Logger.warn("Closed, reason: #{inspect(reason)}")
         {:stop, reason}
     end
   end
@@ -195,7 +195,7 @@ defmodule Pigeon.FCM do
     case Client.default().handle_end_stream(msg, state) do
       {:ok, %Stream{} = stream} -> process_end_stream(stream, state)
       other ->
-        Logger.info("Msg unknown, other: #{inspect(other)}")
+        Logger.debug("Msg unknown, other: #{inspect(other)}")
         {:noreply, state}
     end
   end
@@ -236,7 +236,7 @@ defmodule Pigeon.FCM do
     case NotificationQueue.pop(queue, stream_id) do
       {nil, new_queue} ->
         # Do nothing if no queued item for stream
-        Logger.info("Empty queue")
+        Logger.warn("Empty queue")
         {:noreply, %{state | queue: new_queue}}
 
       {notif, new_queue} ->
