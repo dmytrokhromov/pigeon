@@ -158,6 +158,7 @@ defmodule Pigeon.FCM do
 
   def handle_info({:closed, _}, %{config: config, queue: queue} = state) do
     Logger.info("connection closed, queue: #{inspect(Map.keys(queue))}")
+    retry_queue(queue)
     case connect_socket(config) do
       {:ok, socket} ->
         Configurable.schedule_ping(config)
@@ -166,6 +167,7 @@ defmodule Pigeon.FCM do
           state
           |> reset_stream_id()
           |> Map.put(:socket, socket)
+          |> Map.put(:queue, Pigeon.NotificationQueue.new())
 
         {:noreply, state}
 
@@ -253,5 +255,13 @@ defmodule Pigeon.FCM do
   @doc false
   def reset_stream_id(state) do
     %{state | stream_id: 1}
+  end
+
+  def retry_queue(queue) do
+    queue
+    |> Map.values()
+    |> Enum.each(fn notification ->
+      Process.send_after(self(), {:"$retry_push", notification}, 1000)
+    end)
   end
 end

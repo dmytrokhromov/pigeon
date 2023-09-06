@@ -144,4 +144,8 @@ defmodule Pigeon do
     meta = %{notification.__meta__ | on_response: on_response}
     %{notification | __meta__: meta}
   end
+
+  def retry(pid, notification) do
+    push_async(pid, notification)
+  end
 end
