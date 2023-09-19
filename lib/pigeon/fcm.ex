@@ -156,8 +156,12 @@ defmodule Pigeon.FCM do
     {:noreply, state}
   end
 
-  def handle_info({:closed, _}, %{config: config, queue: queue} = state) do
-    Logger.info("connection closed, queue: #{inspect(Map.keys(queue))}")
+  def handle_info({:DOWN, _, :process, _, _}, %{config: config, queue: queue} = state) do
+    keys = Map.keys(queue)
+    if(length(keys) > 0) do
+      Logger.info("connection closed, queue: #{inspect(keys)}")
+    end
+
     retry_queue(queue)
     case connect_socket(config) do
       {:ok, socket} ->
@@ -207,6 +211,7 @@ defmodule Pigeon.FCM do
   defp connect_socket(config, tries) do
     case Configurable.connect(config) do
       {:ok, socket} ->
+        Process.monitor(socket)
         {:ok, socket}
 
       {:error, reason} ->
