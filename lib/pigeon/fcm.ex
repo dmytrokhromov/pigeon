@@ -136,7 +136,12 @@ defmodule Pigeon.FCM do
     headers = Configurable.push_headers(config, notification, token: token)
     payload = Configurable.push_payload(config, notification, [])
 
-    Client.default().send_request(state.socket, headers, payload)
+    try do
+      Client.default().send_request(state.socket, headers, payload)
+    catch
+      :exit, reason ->
+        Logger.info("http client died, reason: #{inspect reason}")
+    end
 
     new_q = NotificationQueue.add(queue, state.stream_id, notification)
 
@@ -201,7 +206,6 @@ defmodule Pigeon.FCM do
     case Client.default().handle_end_stream(msg, state) do
       {:ok, %Stream{} = stream} -> process_end_stream(stream, state)
       other ->
-        Logger.debug("Msg unknown, other: #{inspect(other)}")
         {:noreply, state}
     end
   end
